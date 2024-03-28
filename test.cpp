@@ -2,22 +2,21 @@
 #include <vector>
 #include <string>
 
+using namespace std;
+
+
 class FitnessClass {
 private:
-    std::string name;
+    string className;
     int maxSlots;
     int availableSlots;
 
 public:
-    FitnessClass(const std::string& name, int maxSlots)
-        : name(name), maxSlots(maxSlots), availableSlots(maxSlots) {}
+    FitnessClass(const string& name, int maxSlots)
+        : className(name), maxSlots(maxSlots), availableSlots(maxSlots) {}
 
-    std::string getName() const {
-        return name;
-    }
-
-    int getMaxSlots() const {
-        return maxSlots;
+    string getClassName() const {
+        return className;
     }
 
     int getAvailableSlots() const {
@@ -31,24 +30,18 @@ public:
         }
         return false;
     }
-
-    void cancelBooking() {
-        if (availableSlots < maxSlots) {
-            availableSlots++;
-        }
-    }
 };
 
 class Booking {
 private:
-    std::string memberName;
+    string memberName;
     FitnessClass* fitnessClass;
 
 public:
-    Booking(const std::string& memberName, FitnessClass* fitnessClass)
-        : memberName(memberName), fitnessClass(fitnessClass) {}
+    Booking(const string& name, FitnessClass* fitnessClass)
+        : memberName(name), fitnessClass(fitnessClass) {}
 
-    std::string getMemberName() const {
+    string getMemberName() const {
         return memberName;
     }
 
@@ -58,21 +51,55 @@ public:
 };
 
 int main() {
-    // Create some fitness classes
+    // Create fitness classes
     FitnessClass yoga("Yoga", 10);
     FitnessClass zumba("Zumba", 15);
+    FitnessClass pilates("Pilates", 8);
 
-    // Book slots for members
-    Booking booking1("John", &yoga);
-    Booking booking2("Jane", &zumba);
+    // Create a vector to store bookings
+    vector<Booking> bookings;
 
-    // Output booking information
-    std::cout << "Booking 1: " << booking1.getMemberName() << " - " << booking1.getFitnessClass()->getName() << std::endl;
-    std::cout << "Booking 2: " << booking2.getMemberName() << " - " << booking2.getFitnessClass()->getName() << std::endl;
+    // Display available fitness classes
+    cout << "Available Fitness Classes:" << endl;
+    cout << "1. " << yoga.getClassName() << " (" << yoga.getAvailableSlots() << " slots available)" << endl;
+    cout << "2. " << zumba.getClassName() << " (" << zumba.getAvailableSlots() << " slots available)" << endl;
+    cout << "3. " << pilates.getClassName() << " (" << pilates.getAvailableSlots() << " slots available)" << endl;
 
-    // Check available slots
-    std::cout << "Available slots for Yoga: " << yoga.getAvailableSlots() << std::endl;
-    std::cout << "Available slots for Zumba: " << zumba.getAvailableSlots() << std::endl;
+    // Get member's choice
+    int choice;
+    cout << "Enter the number of the fitness class you want to book: ";
+    cin >> choice;
+
+    // Book a slot for the chosen fitness class
+    FitnessClass* chosenClass = nullptr;
+    switch (choice) {
+    case 1:
+        chosenClass = &yoga;
+        break;
+    case 2:
+        chosenClass = &zumba;
+        break;
+    case 3:
+        chosenClass = &pilates;
+        break;
+    default:
+        cout << "Invalid choice!" << endl;
+        return 0;
+    }
+
+    if (chosenClass->bookSlot()) {
+        string memberName;
+        cout << "Enter your name: ";
+        cin >> memberName;
+
+        Booking newBooking(memberName, chosenClass);
+        bookings.push_back(newBooking);
+
+        cout << "Booking confirmed! You have successfully booked a slot for " << chosenClass->getClassName() << "." << endl;
+    }
+    else {
+        cout << "Sorry, no slots available for " << chosenClass->getClassName() << "." << endl;
+    }
 
     return 0;
 }

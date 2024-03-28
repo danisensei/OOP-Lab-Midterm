@@ -2,17 +2,19 @@
 #include <vector>
 #include <string>
 
+using namespace std;
+
 class FitnessClass {
 private:
-    std::string name;
+    string name;
     int maxSlots;
     int availableSlots;
 
 public:
-    FitnessClass(const std::string& name, int maxSlots)
+    FitnessClass(const string& name, int maxSlots)
         : name(name), maxSlots(maxSlots), availableSlots(maxSlots) {}
 
-    std::string getName() const {
+    string getName() const {
         return name;
     }
 
@@ -41,14 +43,14 @@ public:
 
 class Booking {
 private:
-    std::string memberName;
+    string memberName;
     FitnessClass* fitnessClass;
 
 public:
-    Booking(const std::string& memberName, FitnessClass* fitnessClass)
+    Booking(const string& memberName, FitnessClass* fitnessClass)
         : memberName(memberName), fitnessClass(fitnessClass) {}
 
-    std::string getMemberName() const {
+    string getMemberName() const {
         return memberName;
     }
 
@@ -58,21 +60,17 @@ public:
 };
 
 int main() {
-    // Create some fitness classes
     FitnessClass yoga("Yoga", 10);
     FitnessClass zumba("Zumba", 15);
 
-    // Book slots for members
     Booking booking1("John", &yoga);
     Booking booking2("Jane", &zumba);
 
-    // Output booking information
-    std::cout << "Booking 1: " << booking1.getMemberName() << " - " << booking1.getFitnessClass()->getName() << std::endl;
-    std::cout << "Booking 2: " << booking2.getMemberName() << " - " << booking2.getFitnessClass()->getName() << std::endl;
+    cout << "Booking 1: " << booking1.getMemberName() << " - " << booking1.getFitnessClass()->getName() << endl;
+    cout << "Booking 2: " << booking2.getMemberName() << " - " << booking2.getFitnessClass()->getName() << endl;
 
-    // Check available slots
-    std::cout << "Available slots for Yoga: " << yoga.getAvailableSlots() << std::endl;
-    std::cout << "Available slots for Zumba: " << zumba.getAvailableSlots() << std::endl;
+    cout << "Available slots for Yoga: " << yoga.getAvailableSlots() << endl;
+    cout << "Available slots for Zumba: " << zumba.getAvailableSlots() << endl;
 
     return 0;
 }
